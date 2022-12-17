@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pinny - ToDO</title>
+  <meta 
+    name="theme-color" 
+    content="#ADD8E6"
+  >
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ 
+</head>
+<body>
+  <section class="login-sec">
+    <button class="button button-cirle" onclick="back() "><</button>
+    <br>
+    <br>
+    <div class="card">
+
+      <h1 id="logo">Log In</h1>
+
+      <form name="login_form">
+
+        <label for="email">Email</label>
+        <input type="email" name="email" class="field" required>
+        <br>
+        <label for="password">Password</label>
+        <input type="password" name="password" class="field" required>
+        <br>
+        <p class="error error--hidden"></p>
+        <br>
+        <input type="submit" value="Log In" class="button button-primary">
+        
+      </form>
+      
+    </div>
+    
+  </section>
+  <section class="create-sec">
+    <button class="button button-cirle" onclick="back() "><</button>
+    <br>
+    <div class="card">
+
+      <h1 id="logo">Create Account</h1>
+      <form name="signup_form">
+
+        <label for="name">Name</label>
+        <input type="text" name="name" class="field" required>
+        <br>
+        <label for="email">Email</label>
+        <input type="email" name="email" class="field" required>
+        <br>
+        <label for="password">Password</label>
+        <input type="password" name="password" class="field" required>
+        <br>
+        <p class="error error--hidden"></p>
+
+        <br>
+        <input type="submit" value="Sign Up" class="button button-primary">
+      
+      
+      
+    </div>
+  </section>
+  <section class="main">
+  <div class="lines">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <img class ="notepad"src="/static/img/todo.png">
+  <br>
+  <section class="hero">
+    <header class="hero-header">
+      <h1 class="hero-title">Pinny📌</h1>
+      <h1 id="logo">The better TO-DO List</h3>
+        <div id="buts">
+        
+          <button class="button button-primary" onclick="cpage() ">Get Started</button>
+        
+        <button class="button" onclick="lpage() ">Log In</button>
+      
+      </div>
+    </header>
+    <footer class="hero-footer">
+      
+    </footer>
+  </section>
+</section>
+
+  
+  <script>
+  function lpage() {
+            $(".main").addClass("blur");
+            $(".login-sec").addClass("up");
+  }
+  function cpage() {
+
+            $(".main").addClass("blur");
+            $(".create-sec").addClass("up");
+  }
+  function back() {
+
+  $(".main").removeClass("blur");
+  $(".login-sec").removeClass("up");
+  $(".create-sec").removeClass("up");
+  
+  }
+  
+</script>
+  <script src="/static/js/jquery.js"></script>
+  <script src="/static/js/scripts.js"></script>
+  
+</body>
+</html>
