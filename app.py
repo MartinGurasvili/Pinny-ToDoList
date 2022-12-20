@@ -26,6 +26,10 @@ from user import routes
 def home():
   return render_template('base.html')
 
+@app.route('/app/')
+def appp():
+  return render_template('app.html')
+
 @app.route('/dashboard/')
 @login_required
 def dashboard():

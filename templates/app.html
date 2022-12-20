@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pinny - ToDO</title>
+  <meta 
+    name="theme-color" 
+    content="#ADD8E6"
+  >
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ 
+</head>
+<body>
+  <section class="main">
+    <span id="hamburger" onclick="toggleSidebar(20)">&#9776;</span>
+    <div id="sidebar" class="sidebar" style="backdrop-filter: blur( 20px )">
+      
+      <div class="section">
+        <hr>
+        <div class="menu-header">Name</div>
+        <hr>
+        <p>List Title</p>
+        <p>List Title1</p>
+        <p>List Title2</p>
+        
+        <div class="menu-footer"><hr>Sign Out<hr></div>
+    
+      </div>
+  
+      
+    </div>
+    
+  
+    <div id="sidebarr" class="appp" style="z-index: inherit;">
+      <center>
+      <div class="adder" style="z-index: 40;">
+        <h1 class="logo">List Title</h1>
+        <input id="notes"type="text" class="input" placeholder="Add items in your list"/>
+      <center>
+      <ul>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Shopping</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Eat food</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Go Work Out</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Code</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Sleep</li>
+      </ul>
+    </center>
+          </div>
+        </center>
+  
+    </div>
+  
+  </section>
+  
+
+  
+  <script>
+  var btn = document.querySelector('.add');
+var remove = document.querySelector('.draggable');
+
+function destroyElement(obj) {
+
+obj.remove();
+
+}
+
+function dragStart(e) {
+  this.style.opacity = '0.4';
+  dragSrcEl = this;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', this.innerHTML);
+};
+
+function dragEnter(e) {
+  this.classList.add('over');
+}
+
+function dragLeave(e) {
+  e.stopPropagation();
+  this.classList.remove('over');
+}
+
+function dragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  return false;
+}
+
+function dragDrop(e) {
+  if (dragSrcEl != this) {
+    dragSrcEl.innerHTML = this.innerHTML;
+    this.innerHTML = e.dataTransfer.getData('text/html');
+  }
+  return false;
+}
+
+function dragEnd(e) {
+  var listItens = document.querySelectorAll('.draggable');
+  [].forEach.call(listItens, function(item) {
+    item.classList.remove('over');
+  });
+  this.style.opacity = '1';
+}
+
+function addEventsDragAndDrop(el) {
+  el.addEventListener('dragstart', dragStart, false);
+  el.addEventListener('dragenter', dragEnter, false);
+  el.addEventListener('dragover', dragOver, false);
+  el.addEventListener('dragleave', dragLeave, false);
+  el.addEventListener('drop', dragDrop, false);
+  el.addEventListener('dragend', dragEnd, false);
+}
+
+var listItens = document.querySelectorAll('.draggable');
+[].forEach.call(listItens, function(item) {
+  addEventsDragAndDrop(item);
+});
+
+
+
+
+function addNewItem(newItem) {
+  
+  if (newItem != '') {
+    document.querySelector('.input').value = '';
+    var li = document.createElement('li');
+    var attr = document.createAttribute('draggable');
+    var ul = document.querySelector('ul');
+    li.className = 'draggable';
+    attr.value = 'true';
+    li.setAttributeNode(attr);
+    var attr = document.createAttribute('ondblclick');
+    attr.value = 'destroyElement(this)';
+    li.setAttributeNode(attr);
+    li.appendChild(document.createTextNode(newItem));
+    ul.appendChild(li);
+    addEventsDragAndDrop(li);
+  }
+}
+
+
+  
+</script>
+
+<script>
+  $("#notes").on('keyup', function (event) {
+  console.log("ayosf")
+
+if (event.keyCode === 13) {
+    search = document.getElementById("notes").value
+
+    if (search != "" || search != " "){
+      addNewItem(search)
+    }
+}
+});
+
+function toggleSidebar(sidebarWidth) {
+  let hamburger = document.getElementById("hamburger");
+  let main = document.getElementById("sidebarr");
+  let mainn = document.getElementById("sidebar");
+  let left = $("#sidebarr").css("left");
+  console.log(left)
+  if (left != "0px") {
+    //is open so close
+    main.style.left = "0px";
+    mainn.style.width = "0px";
+    mainn.style.opacity = "0";
+    mainn.style.backdropFilter = "blur( 0px )"
+    hamburger.style.left = "0px";
+  } else {
+    main.style.left = "20%";
+    mainn.style = "width:20%;opacity:1;backdrop-filter: blur( 20px );-webkit-backdrop-filter: blur( 20px );"
+   
+    hamburger.style.left ="20%";
+  }
+}
+
+</script>
+  <script src="/static/js/jquery.js"></script>
+  <script src="/static/js/scripts.js"></script>
+  
+</body>
+</html>

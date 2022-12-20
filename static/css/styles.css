@@ -3,10 +3,192 @@ body {
 	font-size: 3vh;
   height:100vh;
   margin: 0;
+  color: #ffffff;
   --x: calc(var(--posX, 0) * 1px);
   --y: calc(var(--posY, 0) * 1px);
   background-image: linear-gradient( rgb(202, 193, 215), rgb(194, 137, 151));
-  overflow: hidden
+  /* background-image:url("https://content.r9cdn.net/rimg/dimg/ca/7e/9ae1c4b2-city-21033-16c1b1c620d.jpg?crop=true&width=1020&height=498");  */
+  background-size: cover;
+  overflow: hidden;
+  --sidebar-width: 20%;
+}
+.adder {
+  position: relative;
+  width: 90%;
+  display: block;
+  justify-content: center;
+  transition: all 0.5s ease;
+  text-align: center;
+  color: #ffffff;
+  z-index: 4;
+
+}
+
+.adder::-webkit-input-placeholder {
+  color: #ffffff;
+}
+
+.adder .input {
+  outline: none;
+  border: 3px solid rgb(214, 214, 214);
+  background-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  
+  height: 110px;
+  width: 90%;
+  border-radius: 20px;
+  padding-left: 10px;
+  font-weight: 800;
+  /* font-size: 16px; */
+  margin-left: -5px;
+  font-size: 2vw;
+  transition: all 0.1s ease;
+  background: rgba( 255, 255, 255, 0.1 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 20px );
+  -webkit-backdrop-filter: blur( 20px );
+  z-index: 4;
+}
+
+.adder span {
+  justify-content: center;
+  position: absolute;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.8;
+  cursor: pointer;
+  transition: all 200ms;
+  color: white;
+  will-change: transform;
+  transition: all 0.5s ease;
+  background: rgba( 255, 255, 255, 0.1 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 20px );
+  -webkit-backdrop-filter: blur( 20px );
+  z-index: 4;
+}
+
+.adder span:hover {
+  transform: rotate(180deg);
+}
+
+ul {
+  padding: 0px;
+  justify-content: center;
+}
+
+ul .draggable {
+  justify-content: center;
+  will-change: transform;
+  font-weight: 800;
+  height: 50px;
+  list-style-type: none;
+  
+  background-color: rgba(255, 255, 255, 0.5);
+  color: rgb(255, 255, 255);
+  width: 75%;
+  border-radius: 20px;
+  background: rgba( 255, 255, 255, 0.1 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 20px );
+  -webkit-backdrop-filter: blur( 20px );
+  
+  padding: 20px;
+  cursor: move;
+  transition: all 200ms;
+  user-select: none;
+  margin: 10px ;
+  position: relative;
+}
+.sidebar {
+  position: absolute;
+  background: rgba( 255, 255, 255, 0.1 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 20px );
+  -webkit-backdrop-filter: blur( 20px );
+  border-radius: 0px 0px 10px 0px;
+  width: var(--sidebar-width);
+  display: hidden;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+.menu-footer{
+  position: relative;
+  top:52vh;
+}
+.listlots{
+  transition: all 0.1s ease;
+  font-size: 3vw;
+}
+#hamburger {
+  position: absolute;
+  left: var(--sidebar-width);
+  cursor: pointer;
+  
+  padding: 5px 10px;
+  border-radius: 0px 20px 20px 0px;
+  background: rgba( 255, 255, 255, 0.1 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 20px );
+  -webkit-backdrop-filter: blur( 20px );
+  box-shadow: 15px 10px 30px 0 rgba( 31, 38, 135, 0.37 );
+  
+  z-index: 2;
+  
+  
+  transition: all 0.5s ease;
+}
+#hamburger:hover {
+  color: rgb(255, 0, 0);
+}
+.section {
+  padding: 5px;
+  text-align: center;
+  opacity: 0.7;
+  transition: all 0.1s ease;
+}
+.section p:hover {
+  /*color: white;*/
+  cursor: pointer;
+  text-decoration-line: underline;
+}
+.appp {
+  position: absolute;
+  left: 20%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 0.5s ease;
+  background-color: rgba( 255, 255, 255, 0 );
+  overflow-x: hidden;
+}
+
+
+ul .draggable:after {
+  content: 'Double Click - Delete Me';
+  right: 7px;
+  font-size: 10px;
+  position: absolute;
+  cursor: pointer;
+  color: red;
+  line-height: 5;
+  transition: all 200ms;
+  transition-timing-function: cubic-bezier(0.48, 0.72, 0.62, 1.50);
+  transform: translateX(120%);
+  opacity: 0;
+}
+
+ul .draggable:hover:after {
+  opacity: 1;
+  transform: translate(0);
+}
+
+.over {
+  transform: scale(1.1, 1.1);
 }
 
 .login-sec {
