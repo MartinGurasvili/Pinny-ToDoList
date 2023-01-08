@@ -102,11 +102,23 @@ def appp():
     if request.method == 'POST':
         if request.form['tip'] == "getNames":
             id = request.form['id']
-            folders.find
+            
             documents = folders.find({'id': id})
             document_names = [doc['name'] for doc in documents]
             document_names = ",".join(document_names)
             return document_names
+        
+        if request.form['tip'] == "rename":
+            id = request.form['id']
+            print(id)
+            last = request.form['lastname']
+            print(last)
+            new = request.form['newname']
+            print(new)
+            elements = folders.find_one({'id':str(id),'name': last})["elements"]
+            folders.delete_one({'id':str(id),'name': last})
+            folders.find_one_and_update({'id':str(id),'name': new},{"$set": {'elements': elements}} ,upsert=True)
+            return new
         if request.form['tip'] == "saveF":
             id = request.form['id']
             print(id)

@@ -43,7 +43,7 @@
     <div id="sidebarr" class="appp" style="z-index: inherit;">
       <center>
       <div class="adder" style="z-index: 40;">
-        <input id="maintitle" type="text" value="" class="editable-plain" onchange="saveFolderTODB()">
+        <input id="maintitle" type="text" value="" class="editable-plain" onchange="rename()">
         <h1 class="logo"></h1>
         <input id="notes"type="text" class="input" placeholder="Add items in your list"/>
       <center>
@@ -221,6 +221,7 @@ function setDraggableNames(namesString) {
     
   }
 }
+
 function saveFolderTODB(){
   
   var elements = getDraggableNames()
@@ -242,7 +243,7 @@ function saveFolderTODB(){
                     })
 }
 function loadFolderTODB(name){
-  var currentfolder = name
+  currentfolder = name
 
   $.ajax({
                     url: '/app/',
@@ -308,7 +309,29 @@ function loadFolderTODB(name){
                     })
 }
 
+function rename(){
+  
+  $.ajax({
+                    url: '/app/',
+                    type: 'POST',
+                    async: false,
+  
+                    data: {
+                        tip: "rename",
+                        id: getCookie("idd"),
+                        lastname: currentfolder,
+                        newname: document.getElementById("maintitle").value,
+            
+                    },
+                    success: function (response) {
+                      console.log("yoo");
+                      loadFolderTODB(response)
 
+                    }
+            
+                    })
+
+}
   
 </script>
 
@@ -350,7 +373,7 @@ if (document.getElementById("maintitle").value === "")
     {
       console.log($('#folders').first().html())
       loadFolderTODB($('#folders').first().html())
-      
+      var currentfolder = $('#folders').first().html()
     }
 </script>
 
