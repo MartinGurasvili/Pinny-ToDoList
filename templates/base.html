@@ -11,7 +11,8 @@
   >
   <link rel="stylesheet" href="/static/css/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
- 
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  
 </head>
 <body>
   <section class="login-sec">
@@ -22,7 +23,7 @@
 
       <h1 id="logo">Log In</h1>
 
-      <form name="login_form">
+      <form id="login_form" onsubmit="logi()">
 
         <label for="email">Email</label>
         <input type="email" name="email" class="field" required>
@@ -32,7 +33,7 @@
         <br>
         <p class="error error--hidden"></p>
         <br>
-        <input type="submit" value="Log In" class="button button-primary">
+        <input type="submit"  class="button button-primary">
         
       </form>
       
@@ -45,7 +46,7 @@
     <div class="card">
 
       <h1 id="logo">Create Account</h1>
-      <form name="signup_form">
+      <form id="signup_form" onsubmit="crea()">
 
         <label for="name">Name</label>
         <input type="text" name="name" class="field" required>
@@ -59,16 +60,14 @@
         <p class="error error--hidden"></p>
 
         <br>
-        <input type="submit" value="Sign Up" class="button button-primary">
-      
+        <input type="submit" value="Sign Up" name="create_account" class="btn">
+      </form>
       
       
     </div>
   </section>
   <section class="main">
   <div class="lines">
-    <span></span>
-    <span></span>
     <span></span>
     <span></span>
     <span></span>
@@ -94,7 +93,27 @@
   </section>
 </section>
 
+<script>
+  var name = Cookies.get('name');
+    console.log(name)
+    if (name != 'undefined') {
+      window.location.href = '/app';
+    }
+    
+  setInterval(function() {
+    name = Cookies.get('name');
+    
+    if (name === 'undefined') {
+      console.log(name)
+    }
+    else{
+      window.location.href = '/app';
+    }
+    
+
+}, 1000);
   
+  </script>
   <script>
   function lpage() {
             $(".main").addClass("blur");
@@ -115,7 +134,42 @@
   
 </script>
   <script src="/static/js/jquery.js"></script>
-  <script src="/static/js/scripts.js"></script>
+  <script>
+    
+  function logi() {
+    var form = document.forms.login_form;
+    var temp = new FormData(form)
+    $.ajax({
+                    url: '/ ',
+                    type: 'POST',
+                    
+                    timeout: 30000,
+                    data: {
+                        tip: "login",
+                        email: temp.get("email"),
+                        password: temp.get("password"),
+                    }})}
+    function crea() {
+    var form = document.forms.signup_form;
+    var temp = new FormData(form)
+    $.ajax({
+                    url: '/ ',
+                    type: 'POST',
+                    async: false,
+                    
+                    data: {
+                        tip: "create",
+                        email: temp.get("email"),
+                        name: temp.get("name"),
+                        password: temp.get("password"),
+                    },
+                    success: function (response) {
+                      window.location.href = '/app/';
+
+                    }})}
+    
+    
+</script>
   
 </body>
 </html>

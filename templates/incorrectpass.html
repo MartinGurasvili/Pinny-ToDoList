@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pinny - ToDO</title>
+  <meta 
+    name="theme-color" 
+    content="#ADD8E6"
+  >
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+ 
+</head>
+<body>
+
+  <section class="main">
+  <div class="lines">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <section class="hero">
+    <header class="hero-header">
+      <h1 class="hero-title">Incorrect Password</h1>
+      <h1 id="logo">Please log in again</h3>
+        <div id="buts">
+        
+          <button class="button button-primary" onclick="window.location.href = '/'">Try Again</button>
+    
+      
+      </div>
+    </header>
+    <footer class="hero-footer">
+      
+    </footer>
+  </section>
+</section>
+<script>
+  var name = Cookies.get('name');
+  console.log(name)
+  if (name != 'undefined') {
+    window.location.href = '/app';
+  }
+  
+
+  </script>
+
+</body>
+</html>

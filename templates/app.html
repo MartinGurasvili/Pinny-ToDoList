@@ -11,7 +11,8 @@
   >
   <link rel="stylesheet" href="/static/css/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
- 
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  
 </head>
 <body>
   <section class="main">
@@ -20,13 +21,18 @@
       
       <div class="section">
         <hr>
-        <div class="menu-header">Name</div>
+        <div class="menu-header" id="dets1"><script>document.write(Cookies.get('name'))</script></div>
         <hr>
-        <p>List Title</p>
-        <p>List Title1</p>
-        <p>List Title2</p>
+        <section id="hamfolder" >
         
-        <div class="menu-footer"><hr>Sign Out<hr></div>
+        <button id ="folders" onclick="loadFolderTODB(this.innerHTML)">List Title</button>
+        <button id ="folders" onclick="loadFolderTODB(this.innerHTML)">List Title2</button>
+        
+      </section>
+        
+        <hr>
+        <button onclick="addtoham()" class="btn btn--secondary" style="font-size: 4vh;">+</button>
+        
     
       </div>
   
@@ -37,15 +43,17 @@
     <div id="sidebarr" class="appp" style="z-index: inherit;">
       <center>
       <div class="adder" style="z-index: 40;">
-        <h1 class="logo">List Title</h1>
+        <input id="maintitle" type="text" value="" class="editable-plain" onchange="saveFolderTODB()">
+        <h1 class="logo"></h1>
         <input id="notes"type="text" class="input" placeholder="Add items in your list"/>
       <center>
-      <ul>
-        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Shopping</li>
-        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Eat food</li>
-        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Go Work Out</li>
-        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Code</li>
-        <li class="draggable" draggable="true" ondblclick='destroyElement(this)'>Sleep</li>
+       
+      <ul id="elem">
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Shopping</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Eat food</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Go Work Out</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Code</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Sleep</li>
       </ul>
     </center>
           </div>
@@ -56,10 +64,58 @@
   </section>
   
 
-  
   <script>
+    var name = Cookies.get('name');
+    console.log(name)
+    if (name === 'undefined') {
+      window.location.href = '/';
+    }
+    
+    
+  
+    </script>
+  <script>
+    
   var btn = document.querySelector('.add');
 var remove = document.querySelector('.draggable');
+
+const emojis = [
+  '🌱', '🌴', '🌵', '🌷', '🌸', '🌹', '🌺', '🌻', '🌼', '🌽', '🌾', 
+  '🌿', '🍀', '🍁', '🍂', '🍃', '🍄', '🍅', '🍆', '🍇', '🍈', '🍉', 
+  '🍊', '🍋', '🍌', '🍍', '🍎', '🍏', '🍑', '🍒', '🍓', '🥑', '🥒', 
+  '🥕', '🥔', '🥕', '🥖', '🥗', '🥘', '🥙', '🥚', '🥛', '🥜', '🥝', 
+  '🥞', '🥟', '🥠', '🥡'
+];
+
+function getRandomEmoji() {
+  return emojis[Math.floor(Math.random() * emojis.length)];
+}
+
+function addtoham() {
+
+  const section = document.querySelector('#hamfolder');
+const buttons = section.querySelectorAll('button');
+const buttonInnerHTML = [];
+
+buttons.forEach((button) => {
+  buttonInnerHTML.push(button.innerHTML);
+});
+var newEmoji = getRandomEmoji();
+
+while (buttonInnerHTML.includes(newEmoji)) {
+  newEmoji = getRandomEmoji();
+}
+button = document.createElement('button')
+button.id = 'folders'
+button.innerHTML = newEmoji
+var attr = document.createAttribute('onclick');
+attr.value = "loadFolderTODB(this.innerHTML)";
+button.setAttributeNode(attr);
+section.appendChild(button)
+
+
+
+}
 
 function destroyElement(obj) {
 
@@ -133,12 +189,123 @@ function addNewItem(newItem) {
     attr.value = 'true';
     li.setAttributeNode(attr);
     var attr = document.createAttribute('ondblclick');
-    attr.value = 'destroyElement(this)';
+    attr.value = 'destroyElement(this);saveFolderTODB();';
     li.setAttributeNode(attr);
     li.appendChild(document.createTextNode(newItem));
     ul.appendChild(li);
     addEventsDragAndDrop(li);
   }
+}
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+function getDraggableNames() {
+  var draggableElements = document.getElementsByClassName("draggable");
+  var names = [];
+  for (var i = 0; i < draggableElements.length; i++) {
+    names.push(draggableElements[i].innerHTML);
+  }
+  var namesString = names.join(", ");
+  return namesString;
+}
+function setDraggableNames(namesString) {
+  var names = namesString.split(", ");
+  var ul = document.getElementById("elem");
+  while (ul.firstChild) {
+    ul.removeChild(ul.firstChild);
+  }
+  for (var i = 0; i < names.length; i++) {
+    addNewItem(names[i])
+    
+  }
+}
+function saveFolderTODB(){
+  
+  var elements = getDraggableNames()
+  console.log(elements)
+  var name = document.getElementById('maintitle').value
+  
+  $.ajax({
+                    url: '/app/',
+                    type: 'POST',
+                    async: false,
+                    
+                    data: {
+                        tip: "saveF",
+                        id: getCookie("idd"),
+                        name: name,
+                        el: elements,
+                    }
+            
+                    })
+}
+function loadFolderTODB(name){
+  var currentfolder = name
+
+  $.ajax({
+                    url: '/app/',
+                    type: 'POST',
+                    async: false,
+  
+                    data: {
+                        tip: "getNames",
+                        id: getCookie("idd"),
+                    },
+                    success: function (response) {
+                      console.log(response)
+                      var names = response.split(",");
+                      var div = document.getElementById('hamfolder')
+                      div.innerHTML = ""
+                      for (var i = 0; i < names.length; i++) {
+                        button = document.createElement('button')
+                        button.id = 'folders'
+                        button.innerHTML = names[i]
+                        var attr = document.createAttribute('onclick');
+                        attr.value = "loadFolderTODB(this.innerHTML)";
+                        button.setAttributeNode(attr);
+                        div.appendChild(button)
+                      }
+                     
+                    }
+            
+                    })
+
+  $.ajax({
+                    url: '/app/',
+                    type: 'POST',
+                    async: false,
+  
+                    data: {
+                        tip: "loadF",
+                        id: getCookie("idd"),
+                        name: name,
+            
+                    },
+                    success: function (response) {
+               
+                      if (response === undefined){
+
+                        document.getElementById('maintitle').value = name
+                        var ul = document.getElementById("elem");
+                        while (ul.firstChild) {
+                          ul.removeChild(ul.firstChild);
+                        }
+                        
+                      }
+                      else{
+                        document.getElementById('maintitle').value = name
+                        console.log(response)
+                        setDraggableNames(response)
+                        
+                      }
+                      
+
+
+                    }
+            
+                    })
 }
 
 
@@ -154,6 +321,7 @@ if (event.keyCode === 13) {
 
     if (search != "" || search != " "){
       addNewItem(search)
+      saveFolderTODB()
     }
 }
 });
@@ -178,10 +346,18 @@ function toggleSidebar(sidebarWidth) {
     hamburger.style.left ="20%";
   }
 }
-
+if (document.getElementById("maintitle").value === "")
+    {
+      console.log($('#folders').first().html())
+      loadFolderTODB($('#folders').first().html())
+      
+    }
 </script>
+
+
+
+
   <script src="/static/js/jquery.js"></script>
-  <script src="/static/js/scripts.js"></script>
   
 </body>
 </html>
