@@ -24,9 +24,8 @@
         <div class="menu-header" id="dets1"><script>document.write(Cookies.get('name'))</script></div>
         <hr>
         <section id="hamfolder" >
+          <button id ="folders" onclick="loadFolderTODB(this.innerHTML)">Your First Note 📌</button>
         
-        <button id ="folders" onclick="loadFolderTODB(this.innerHTML)">List Title</button>
-        <button id ="folders" onclick="loadFolderTODB(this.innerHTML)">List Title2</button>
         
       </section>
         
@@ -49,9 +48,9 @@
       <center>
        
       <ul id="elem">
-        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Shopping</li>
-        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Eat food</li>
-        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Go Work Out</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Click name to change background</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Double click to delete notes</li>
+        <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Everything is dynamic</li>
         <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Code</li>
         <li class="draggable" draggable="true" ondblclick='destroyElement(this);saveFolderTODB();'>Sleep</li>
       </ul>
@@ -228,6 +227,8 @@ function saveFolderTODB(){
   console.log(elements)
   var name = document.getElementById('maintitle').value
   
+  
+
   $.ajax({
                     url: '/app/',
                     type: 'POST',
@@ -238,6 +239,34 @@ function saveFolderTODB(){
                         id: getCookie("idd"),
                         name: name,
                         el: elements,
+                    }
+            
+                    })
+
+                    $.ajax({
+                    url: '/app/',
+                    type: 'POST',
+                    async: false,
+  
+                    data: {
+                        tip: "getNames",
+                        id: getCookie("idd"),
+                    },
+                    success: function (response) {
+                      console.log(response)
+                      var names = response.split(",");
+                      var div = document.getElementById('hamfolder')
+                      div.innerHTML = ""
+                      for (var i = 0; i < names.length; i++) {
+                        button = document.createElement('button')
+                        button.id = 'folders'
+                        button.innerHTML = names[i]
+                        var attr = document.createAttribute('onclick');
+                        attr.value = "loadFolderTODB(this.innerHTML)";
+                        button.setAttributeNode(attr);
+                        div.appendChild(button)
+                      }
+                     
                     }
             
                     })
@@ -371,9 +400,21 @@ function toggleSidebar(sidebarWidth) {
 }
 if (document.getElementById("maintitle").value === "")
     {
+      loadFolderTODB("")
       console.log($('#folders').first().html())
+      if ($('#folders').first().html() === ""){
+        console.log("yooo bus man")
+        document.getElementById('maintitle').value = "Your First Note 📌"
+        document.getElementById("hamfolder").innerHTML = '<button id ="folders" onclick="loadFolderTODB(this.innerHTML)">Your First Note 📌</button>'
+        
+        document.getElementById("elem").innerHTML = '<li class="draggable" draggable="true" ondblclick="destroyElement(this);saveFolderTODB();">WELCOME TO PINNY📌</li><li class="draggable" draggable="true" ondblclick="destroyElement(this);saveFolderTODB();">Click on Title above to edit</li><li class="draggable" draggable="true" ondblclick="destroyElement(this);saveFolderTODB();">Click user name to change background</li><li class="draggable" draggable="true" ondblclick="destroyElement(this);saveFolderTODB();">Click user name to change add shared note </li><li class="draggable" draggable="true" ondblclick="destroyElement(this);saveFolderTODB();">Click Share Button Above to get notes share link </li><li class="draggable" draggable="true" ondblclick="destroyElement(this);saveFolderTODB();">Double click to delete notes</li><li class="draggable" draggable="true" ondblclick="destroyElement(this);saveFolderTODB();">Drag Notes to rearrange</li><li class="draggable" draggable="true" ondblclick="destroyElement(this);saveFolderTODB();">This Note will not be saved if not changed</li>'
+        
+      }else{
+
+      
       loadFolderTODB($('#folders').first().html())
       var currentfolder = $('#folders').first().html()
+    }
     }
 </script>
 
